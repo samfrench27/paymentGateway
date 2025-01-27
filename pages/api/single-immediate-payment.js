@@ -5,6 +5,9 @@ export default async function handler(req, res) {
     const { provider, currency, amount } = req.body;
     const apiKey = process.env.API_KEY;
 
+    // Debug log to verify API key
+    console.log('API Key:', apiKey);
+
     let endpoint = '';
     switch (provider) {
       case 'Token.io':
