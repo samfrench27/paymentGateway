@@ -64,7 +64,7 @@ const Home: React.FC = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <form onSubmit={handleSubmit} className="bg-white p-8 rounded-lg shadow-lg text-left w-full max-w-md">
-        <img src="/images/PaymentGatewayLogo.jpg" alt="Payment Gateway logo" className="w-32 h-32 mx-auto mb-4" />
+        <img src="/images/LosPollosHermanosLogo.png" alt="Payment Gateway logo" className="w-32 h-32 mx-auto mb-4" />
         <hr className="border-gray-300 my-4" />
         <div className="space-y-4">
           <div className="relative">

@@ -21,7 +21,7 @@
     "autoprefixer": "^9.8.8",
     "next": "latest",
     "node-fetch": "^3.3.2",
-    "postcss": "^7.0.39",
+    "postcss": "^8.3.6",
     "react": "latest",
     "react-dom": "latest",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.17"
