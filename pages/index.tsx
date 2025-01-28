@@ -5,10 +5,9 @@ const Home: React.FC = () => {
   const [provider, setProvider] = useState('');
   const [currency, setCurrency] = useState('');
   const [amount, setAmount] = useState('');
-  const [maxPaymentAmount, setMaxPaymentAmount] = useState('');
-  const [maxMonthlyAmount, setMaxMonthlyAmount] = useState('');
-  const [maxYearlyAmount, setMaxYearlyAmount] = useState('');
-  const [error, setError] = useState({ maxPaymentAmount: '', maxMonthlyAmount: '', maxYearlyAmount: '' });
+  const [monthlyLimit, setMonthlyLimit] = useState('');
+  const [yearlyLimit, setYearlyLimit] = useState('');
+  const [error, setError] = useState({ amount: '', monthlyLimit: '', yearlyLimit: '' });
 
   const handleIntegerInput = (e: React.ChangeEvent<HTMLInputElement>, setValue: React.Dispatch<React.SetStateAction<string>>, field: string) => {
     const value = e.target.value;
@@ -32,7 +31,7 @@ const Home: React.FC = () => {
         break;
       case 'variable-recurring-payment':
         endpoint = '/api/variable-recurring-payment';
-        payload = { provider, maxPaymentAmount, maxMonthlyAmount, maxYearlyAmount };
+        payload = { provider, amountValue: amount, monthlyLimit, yearlyLimit };
         break;
       case 'account-information-service':
         endpoint = '/api/account-information-service';
@@ -149,43 +148,43 @@ const Home: React.FC = () => {
             {service === 'variable-recurring-payment' && (
               <>
                 <div className="relative">
-                  <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="maxPaymentAmount">
-                    Maximum Payment Amount
+                  <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="amount">
+                    Amount
                   </label>
                   <input
-                    id="maxPaymentAmount"
+                    id="amount"
                     type="text"
                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    value={maxPaymentAmount}
-                    onChange={(e) => handleIntegerInput(e, setMaxPaymentAmount, 'maxPaymentAmount')}
+                    value={amount}
+                    onChange={(e) => handleIntegerInput(e, setAmount, 'amount')}
                   />
-                  {error.maxPaymentAmount && <p className="text-red-500 text-xs italic">{error.maxPaymentAmount}</p>}
+                  {error.amount && <p className="text-red-500 text-xs italic">{error.amount}</p>}
                 </div>
                 <div className="relative">
-                  <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="maxMonthlyAmount">
-                    Max Monthly Amount
+                  <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="monthlyLimit">
+                    Monthly Limit
                   </label>
                   <input
-                    id="maxMonthlyAmount"
+                    id="monthlyLimit"
                     type="text"
                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    value={maxMonthlyAmount}
-                    onChange={(e) => handleIntegerInput(e, setMaxMonthlyAmount, 'maxMonthlyAmount')}
+                    value={monthlyLimit}
+                    onChange={(e) => handleIntegerInput(e, setMonthlyLimit, 'monthlyLimit')}
                   />
-                  {error.maxMonthlyAmount && <p className="text-red-500 text-xs italic">{error.maxMonthlyAmount}</p>}
+                  {error.monthlyLimit && <p className="text-red-500 text-xs italic">{error.monthlyLimit}</p>}
                 </div>
                 <div className="relative">
-                  <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="maxYearlyAmount">
-                    Max Yearly Amount
+                  <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="yearlyLimit">
+                    Yearly Limit
                   </label>
                   <input
-                    id="maxYearlyAmount"
+                    id="yearlyLimit"
                     type="text"
                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    value={maxYearlyAmount}
-                    onChange={(e) => handleIntegerInput(e, setMaxYearlyAmount, 'maxYearlyAmount')}
+                    value={yearlyLimit}
+                    onChange={(e) => handleIntegerInput(e, setYearlyLimit, 'yearlyLimit')}
                   />
-                  {error.maxYearlyAmount && <p className="text-red-500 text-xs italic">{error.maxYearlyAmount}</p>}
+                  {error.yearlyLimit && <p className="text-red-500 text-xs italic">{error.yearlyLimit}</p>}
                 </div>
               </>
             )}

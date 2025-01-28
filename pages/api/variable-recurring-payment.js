@@ -2,7 +2,7 @@ import fetch from 'node-fetch';
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
-    const { provider, maxPaymentAmount, maxMonthlyAmount, maxYearlyAmount } = req.body;
+    const { provider, amountValue, monthlyLimit, yearlyLimit } = req.body;
     const apiKey = process.env.API_KEY;
 
     // Debug log to verify API key
@@ -29,7 +29,7 @@ export default async function handler(req, res) {
 
     try {
       console.log('Sending request to endpoint:', endpoint);
-      console.log('Request payload:', { maxPaymentAmount, maxMonthlyAmount, maxYearlyAmount });
+      console.log('Request payload:', { amountValue, monthlyLimit, yearlyLimit });
 
       const response = await fetch(endpoint, {
         method: 'POST',
@@ -37,7 +37,7 @@ export default async function handler(req, res) {
           'Content-Type': 'application/json',
           'X-API-KEY': `${apiKey}`,
         },
-        body: JSON.stringify({ maxPaymentAmount, maxMonthlyAmount, maxYearlyAmount }),
+        body: JSON.stringify({ amountValue, monthlyLimit, yearlyLimit }),
       });
 
       if (!response.ok) {
