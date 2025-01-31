@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 
 const Home: React.FC = () => {
   const [service, setService] = useState('');
@@ -8,6 +9,46 @@ const Home: React.FC = () => {
   const [monthlyLimit, setMonthlyLimit] = useState('');
   const [yearlyLimit, setYearlyLimit] = useState('');
   const [error, setError] = useState({ amount: '', monthlyLimit: '', yearlyLimit: '' });
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [profilePhoto, setProfilePhoto] = useState<string | null>(null);
+  const router = useRouter();
+
+  useEffect(() => {
+    const sessionId = localStorage.getItem('sessionId');
+    if (!sessionId) {
+      router.push('/login');
+      return;
+    }
+
+    const fetchUserData = async () => {
+      try {
+        const response = await fetch('/api/user', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${sessionId}`,
+          },
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+          setProfilePhoto(data.profile_photo);
+        } else {
+          router.push('/login');
+        }
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+        router.push('/login');
+      }
+    };
+
+    fetchUserData();
+  }, [router]);
+
+  const handleLogout = () => {
+    localStorage.removeItem('sessionId');
+    router.push('/login');
+  };
 
   const handleIntegerInput = (e: React.ChangeEvent<HTMLInputElement>, setValue: React.Dispatch<React.SetStateAction<string>>, field: string) => {
     const value = e.target.value;
@@ -61,8 +102,39 @@ const Home: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <main className="flex flex-col items-center justify-center">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
+      <nav className="w-full bg-white shadow-md">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between h-16">
+            <div className="flex-shrink-0 flex items-center">
+              <img className="h-8 w-8" src="/images/LosPollosHermanosLogo.png" alt="Los Pollos Hermanos logo" />
+            </div>
+            <div className="flex items-center">
+              <div className="relative">
+                <button
+                  onClick={() => setDropdownOpen(!dropdownOpen)}
+                  className="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition duration-150 ease-in-out"
+                >
+                  <img className="h-8 w-8 rounded-full" src={profilePhoto || "/images/account-icon.png"} alt="Account" />
+                </button>
+                {dropdownOpen && (
+                  <div className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5">
+                    <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
+                    <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
+                    <button
+                      onClick={handleLogout}
+                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    >
+                      Logout
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <main className="flex-grow flex items-center justify-center">
         <form onSubmit={handleSubmit} className="bg-white p-8 rounded-lg shadow-lg text-left w-full max-w-md">
           <img src="/images/LosPollosHermanosLogo.png" alt="Payment Gateway logo" className="w-32 h-32 mx-auto mb-4" />
           <hr className="border-gray-300 my-4" />
