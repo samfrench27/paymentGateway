@@ -21,7 +21,7 @@ export default async function handler(req, res) {
     // Generate a random 6-digit OTP
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
 
-    // Store the OTP in a temporary storage (e.g., in-memory, Redis, etc.)
+    // Store the OTP in a temporary storage 
     // For simplicity, we'll use an in-memory store here
     // In production, use a more persistent storage
     global.otpStore = global.otpStore || {};
