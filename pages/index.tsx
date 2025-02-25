@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
+import { auth } from '../lib/firebaseConfig';
 
 const Home: React.FC = () => {
   const [service, setService] = useState('');
@@ -14,40 +16,23 @@ const Home: React.FC = () => {
   const router = useRouter();
 
   useEffect(() => {
-    const sessionId = localStorage.getItem('sessionId');
-    if (!sessionId) {
-      router.push('/login');
-      return;
-    }
-
-    const fetchUserData = async () => {
-      try {
-        const response = await fetch('/api/user', {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${sessionId}`,
-          },
-        });
-
-        const data = await response.json();
-        if (response.ok) {
-          setProfilePhoto(data.profile_photo);
-        } else {
-          router.push('/login');
-        }
-      } catch (error) {
-        console.error('Error fetching user data:', error);
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setProfilePhoto(user.photoURL);
+      } else {
         router.push('/login');
       }
-    };
+    });
 
-    fetchUserData();
+    return () => unsubscribe();
   }, [router]);
 
   const handleLogout = () => {
-    localStorage.removeItem('sessionId');
-    router.push('/login');
+    signOut(auth).then(() => {
+      router.push('/login');
+    }).catch((error) => {
+      console.error('Error logging out:', error);
+    });
   };
 
   const handleIntegerInput = (e: React.ChangeEvent<HTMLInputElement>, setValue: React.Dispatch<React.SetStateAction<string>>, field: string) => {
