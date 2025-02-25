@@ -13,12 +13,14 @@ const Home: React.FC = () => {
   const [error, setError] = useState({ amount: '', monthlyLimit: '', yearlyLimit: '' });
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [profilePhoto, setProfilePhoto] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setProfilePhoto(user.photoURL);
+        setLoading(false);
       } else {
         router.push('/login');
       }
@@ -85,6 +87,10 @@ const Home: React.FC = () => {
       console.error('Error submitting form:', error);
     }
   };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
