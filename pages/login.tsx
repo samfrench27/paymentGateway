@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import FirebaseAuth from '../components/FirebaseAuth.js';
+import FirebaseAuth from '../components/firebaseAuth.js';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../lib/firebaseConfig';
 
