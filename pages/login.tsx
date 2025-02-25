@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import FirebaseAuth from '../components/FirebaseAuth';
+import FirebaseAuth from '../components/firebaseAuth.js';
 
 const Login: React.FC = () => {
   const [isLogin, setIsLogin] = useState(true);
