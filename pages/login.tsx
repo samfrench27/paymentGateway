@@ -1,17 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import FirebaseAuth from '../components/firebaseAuth.js';
+import FirebaseAuth from '../components/FirebaseAuth.js';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { auth } from '../lib/firebaseConfig';
 
 const Login: React.FC = () => {
   const [isLogin, setIsLogin] = useState(true);
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
-    const sessionId = localStorage.getItem('sessionId');
-    if (sessionId) {
-      router.push('/');
-    }
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        router.push('/');
+      } else {
+        setLoading(false);
+      }
+    });
+
+    return () => unsubscribe();
   }, [router]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
