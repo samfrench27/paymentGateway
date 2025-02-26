@@ -143,7 +143,7 @@ const Home: React.FC = () => {
                 <option value="">Select a provider</option>
                 <option value="Token.io">Token.io</option>
                 <option value="TrueLayer">TrueLayer</option>
-                <option value="Yapily">Yapily</option>
+                <option value="Yapily" disabled>Yapily (Coming soon)</option>
               </select>
               <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-500">
                 <svg className="fill-current h-6 w-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
