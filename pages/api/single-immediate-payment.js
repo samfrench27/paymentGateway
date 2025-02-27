@@ -33,7 +33,7 @@ export default async function handler(req, res) {
           'Content-Type': 'application/json',
           'X-API-KEY': `${apiKey}`,
         },
-        body: JSON.stringify({ currency, amountValue: amount }),
+        body: JSON.stringify({ currency, amountValue: amount, redirect: 'http://localhost:3000/callback' }),
       });
 
       if (!response.ok) {
