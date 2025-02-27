@@ -3,13 +3,13 @@ import type { AppProps } from 'next/app';
 import { config } from '@fortawesome/fontawesome-svg-core';
 import '@fortawesome/fontawesome-svg-core/styles.css'; // Import the CSS
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 
 // Prevent Font Awesome from adding its CSS automatically
 config.autoAddCss = false;
 
 // Add the icons to the library
-library.add(faEye, faEyeSlash);
+library.add(faCheckCircle);
 
 function MyApp({ Component, pageProps }: AppProps) {
   return <Component {...pageProps} />;
